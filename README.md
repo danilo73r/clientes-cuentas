@@ -55,3 +55,5 @@ Las siguientes deciciones las realicé tomando en cuenta que lo importante es de
 - Se utilizará optimistic concurrecy para evitar problemas con cuentas y movimientos, por ejemplo retiros sobre saldos desactualizados.
 
 - No utilizaré códigos para idempotencia en los movimientos, porque añade complejidad innecesaria para el ejercicio y no se conoce todo el contexto. Estos códigos permitirían por ejemplo reintentar desde el frontend que un movimiento se concrete (cuando hubo un error) sin que se genere uno nuevo.
+
+- Para desplegar en Docker utilizaré Dockerfiles multietapa, el sdk para generar el release y con el runtime para ejectuar la api. También tendré 3 docker compose para efectos de despliegue de este ejercicio práctico. Uno para crear (build) las imagenes de los microservicios, otro para ejecutar el script sql (o resetear todas las bases de datos), y otro para ejecutar postgresql rabbitmq y los microservicios.  
