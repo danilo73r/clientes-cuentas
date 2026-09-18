@@ -4,15 +4,23 @@ Developer: Danilo A.
 
 ### Instrucciones
 
-- docker compose -f compose.yaml -f compose.db.yaml run --rm db-init
+**Seguir secuencialmente:**
+
+1. crear un .env utilizando .env.example
+
+2. docker compose -f compose.build.yaml build
+    - Genera las imagenes de los microservicios.
+
+3. docker compose -f compose.yaml -f compose.db.yaml run --rm db-init
     - Crea las bases de datos y las tablas.
+
+4. docker compose up -d
+    - Ejercuta los microservicios, postgresql y rabbitmq.
+
+**Comandos adicionales:**
 
 - docker compose -f compose.yaml -f compose.db.yaml run --rm db-reset
     - Elimina las bases de datos y su contenido.
-
-- docker compose up -d
-    - Ejercuta los microservicios, postgresql y rabbitmq.
-
 
 ## Criterios de Diseño
 

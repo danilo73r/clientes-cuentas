@@ -39,6 +39,32 @@ services:
       retries: 5
       start_period: 30s
 
+  clientes:
+    image: clientes-api:local
+    pull_policy: never # solo permite imagenes locales
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - "127.0.0.1:${CLIENTES_PORT}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  cuentas:
+    image: cuentas-api:local
+    pull_policy: never # solo permite imagenes locales
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - "127.0.0.1:${CUENTAS_PORT}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
 volumes:
   postgres_data:
   rabbitmq_data:

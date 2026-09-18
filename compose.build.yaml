@@ -1,0 +1,12 @@
+services:
+  clientes:
+    image: clientes-api:local
+    build:
+      context: .
+      dockerfile: src/Clientes/Clientes.Api/Dockerfile
+
+  cuentas:
+    image: cuentas-api:local
+    build:
+      context: .
+      dockerfile: src/Cuentas/Cuentas.Api/Dockerfile

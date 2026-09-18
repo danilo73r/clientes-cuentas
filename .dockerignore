@@ -1,0 +1,9 @@
+# Docker compilará todo
+**/bin/
+**/obj/
+
+# Por precaución
+.git/
+.vscode/
+**/.env
+**/.env.*
