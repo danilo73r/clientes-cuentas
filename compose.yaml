@@ -6,10 +6,12 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: postgres
+      TZ: UTC
+    command: ["postgres", "-c", "timezone=UTC", "-c", "log_timezone=UTC"]
     ports:
       - "127.0.0.1:${POSTGRES_PORT}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql 
     healthcheck:
       test:
         - CMD-SHELL
@@ -25,6 +27,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      TZ: UTC
     ports:
       - "127.0.0.1:${RABBITMQ_PORT}:5672"
       - "127.0.0.1:${RABBITMQ_MANAGEMENT_PORT}:15672"
@@ -46,6 +49,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__Database: "Host=postgres;Port=5432;Database=${CLIENTES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
       ConnectionStrings__RabbitMQ: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/"
+      TZ: UTC
     ports:
       - "127.0.0.1:${CLIENTES_PORT}:8080"
     depends_on:
@@ -61,6 +65,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__Database: "Host=postgres;Port=5432;Database=${CUENTAS_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
       ConnectionStrings__RabbitMQ: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/"
+      TZ: UTC
     ports:
       - "127.0.0.1:${CUENTAS_PORT}:8080"
     depends_on:

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cuentas.Domain\Cuentas.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared.Application\Shared.Application.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
