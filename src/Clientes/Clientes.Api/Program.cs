@@ -3,6 +3,7 @@ using Wolverine.RabbitMQ;
 using Clientes.Infrastructure;
 using Shared.Api.Exceptions;
 using Shared.Application.Tiempo;
+using Shared.Application.Identidad;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,9 @@ builder.Host.UseWolverine(options =>
     options.UseRabbitMq(new Uri(rabbitConnection)).AutoProvision();
     options.ListenToRabbitQueue("clientes");
 });
+
+// Guids
+builder.Services.AddSingleton<GeneradorId>();
 
 // Timezone
 var zonaId = builder.Configuration["Tiempo:ZonaHoraria"]
