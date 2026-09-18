@@ -32,6 +32,8 @@ Escenario: Reactivar un cliente
     - Dado: un cliente inactivo (estado false)
     - Cuando: se reactiva
     - Entonces: su estado pasa a true
+    - Y: sus cuentas permanecen inactivas
+    - Pero: ya podrían activarse
 
 Escenario: Bloquear ediciones durante desactivación de cliente
 

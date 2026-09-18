@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Clientes/">
+    <Project Path="src/Clientes/Clientes.Application/Clientes.Application.csproj" />
+    <Project Path="src/Clientes/Clientes.Domain/Clientes.Domain.csproj" />
+    <Project Path="src/Clientes/Clientes.Infrastructure/Clientes.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Clientes/Clientes.Api/">
+    <Project Path="src/Clientes/Clientes.Api/Clientes.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Cuentas/">
+    <Project Path="src/Cuentas/Cuentas.Api/Cuentas.Api.csproj" />
+    <Project Path="src/Cuentas/Cuentas.Application/Cuentas.Application.csproj" />
+    <Project Path="src/Cuentas/Cuentas.Domain/Cuentas.Domain.csproj" />
+    <Project Path="src/Cuentas/Cuentas.Infrastructure/Cuentas.Infrastructure.csproj" />
+  </Folder>
+</Solution>
