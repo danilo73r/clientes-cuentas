@@ -7,6 +7,7 @@ Developer: Danilo A.
 **Seguir secuencialmente:**
 
 1. crear un .env utilizando .env.example
+    - Los password son lo prioritario para cambiar.
 
 2. docker compose -f compose.build.yaml build
     - Genera las imagenes de los microservicios.
