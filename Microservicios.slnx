@@ -14,4 +14,8 @@
     <Project Path="src/Cuentas/Cuentas.Domain/Cuentas.Domain.csproj" />
     <Project Path="src/Cuentas/Cuentas.Infrastructure/Cuentas.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/Shared.Api/Shared.Api.csproj" />
+    <Project Path="src/Shared/Shared.Domain/Shared.Domain.csproj" />
+  </Folder>
 </Solution>

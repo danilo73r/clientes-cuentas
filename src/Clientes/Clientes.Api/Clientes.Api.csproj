@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Clientes.Application\Clientes.Application.csproj" />
     <ProjectReference Include="..\Clientes.Infrastructure\Clientes.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared.Api\Shared.Api.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -245,7 +245,7 @@ Para desplegar en Docker utilizaré Dockerfiles multietapa, el sdk para generar 
 
 - No utilizaré un mecanismo de autenticación y autorización, podría solicitar contraseña para las acciones con cuentas y movimientos y usar hash fucntion para comprobar autorización pero considero que sale del alcance. 
 
-- Utilizaré un handler global de excepciones para cada API. Y utilizaré excepciones con clases predefinidas como ReglaNegocioException que tiene codigo y mensaje. Esto se puede ampliar segun el contexto, pero es suficiente para el ejercicio.
+- Utilizaré un handler global de excepciones para cada API. Y utilizaré excepciones con clases predefinidas como ReglaNegocioException que tiene codigo y mensaje. Esto se puede ampliar segun el contexto, pero es suficiente para el ejercicio. Utilizaré librerías Shared para no tender que duplicar código en los microservicios.
 
 - Los microservicios manejarán todos fechas en UTC al igual que las bases de datos, y se controlará la conversión local/UTC0 para todas las entradas con fechas, las salidas se mantendrán con UTC (puesto que el consumidor debe transformarlas a su zona horaria local).
 
