@@ -37,8 +37,10 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
                 : exception.Message
         };
 
+        problema.Extensions["traceId"] = httpContext.TraceIdentifier;
         if (exception is ReglaNegocioException regla)
             problema.Extensions["code"] = regla.Codigo;
+        
 
         httpContext.Response.StatusCode = status;
 
