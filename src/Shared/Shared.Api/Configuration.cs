@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Api.Exceptions;
 
@@ -9,6 +10,7 @@ public static class Configuration
         this IServiceCollection services)
     {
         ExceptionHandlerConfig(services);
+        EnumSerializationConfig(services);
 
         return services;
     }
@@ -19,4 +21,12 @@ public static class Configuration
         services.AddProblemDetails();
     }
 
+    private static void EnumSerializationConfig(IServiceCollection services)
+    {
+        services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.Converters.Add(
+                new JsonStringEnumConverter(allowIntegerValues: false));
+        });
+    }
 }
