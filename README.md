@@ -201,16 +201,19 @@ Para desplegar en Docker utilizaré Dockerfiles multietapa, el sdk para generar 
 ### ADR02 - Persistencia
 
 - Contexto: 
-    - Se maneja en cada microservicio con bases de datos dinstintas.
-    - El modelo Persona tiene esta descripción "Debe manera su clave primaria (PK)" parace indicar que se requiere un id.
+    - Se maneja cada microservicio con bases de datos dinstintas.
+    - El modelo Persona tiene esta descripción "Debe manera su clave primaria (PK)", indica que se requiere un id.
     - Cliente también requiere un id y hereda de Persona.  
+    - Los casos de uso manejan Clientes, no personas independientes.
 - Decisión:
     - Utilizar Postgresql y también Efcore.
     - Para el id de Persona no usaré su identificador porque es un dato del dominio.
     - Para la relación de herencia utilizaré TPT de Efcore.
+    - Persona será una clase abstracta y Cliente una clase concreta.
     - Para el script BaseDatos.sql utilizaré el código creado por las migraciones de Efcore, pero manualmente se agregará la creación de cada base de datos.
 - Consecuencia:
     - Los esquemas parten de las migraciones, el id será compatido entre Personas y Clientes pero con tablas distintas.
+    - No se podrán instanciar personas independientes, sus datos se guardarán como parte de un Cliente.
 
 
 ### ADR03 - Comunicación Asíncrona
