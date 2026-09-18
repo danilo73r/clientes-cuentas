@@ -4,7 +4,15 @@ Developer: Danilo A.
 
 ### Instrucciones
 
-- 
+- docker compose -f compose.yaml -f compose.db.yaml run --rm db-init
+    - Crea las bases de datos y las tablas.
+
+- docker compose -f compose.yaml -f compose.db.yaml run --rm db-reset
+    - Elimina las bases de datos y su contenido.
+
+- docker compose up -d
+    - Ejercuta los microservicios, postgresql y rabbitmq.
+
 
 ## Criterios de Diseño
 
@@ -230,7 +238,7 @@ Para desplegar en Docker utilizaré Dockerfiles multietapa, el sdk para generar 
 - Decisión:
     - Utilizaré Dockerfiles para generar las imagenes. Para el build utilizaré docker compose.
     - Utilizaré docker compose para ejectuar todos los servicios de postgresql, rabbitmq, microservicios.
-    - Utilizaré docker compose con un script sh para ejecutar scripts para las bases de datos (init y reset), este utilizará como base el servicio postgresql del otro compose.
+    - Utilizaré docker compose para ejecutar con psql scripts para las bases de datos (init y reset), este utilizará como base el servicio postgresql del otro compose.
     - No utilizaré algun pipeline CI/CD, queda fuera del alcance.
 - Consecuencia:
     - Comandos sencillos para ejecutar docker compose para cada tarea separada.
