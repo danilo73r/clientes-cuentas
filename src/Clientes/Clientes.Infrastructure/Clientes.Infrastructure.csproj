@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="WolverineFx.RabbitMQ" Version="6.39.0" />
+    <PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.39.0" />
   </ItemGroup>
 
   <PropertyGroup>
