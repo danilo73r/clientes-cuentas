@@ -23,6 +23,9 @@ Developer: Danilo A.
 - docker compose -f compose.yaml -f compose.db.yaml run --rm db-reset
     - Elimina las bases de datos y su contenido.
 
+- generateClientes y generateCuentas generan los sql que se copian en BaseDatos.sql
+
+
 ## Criterios de Diseño
 
 Considerando que el propósito es demostrar habilidades, que el tiempo es limitado y que existe cierto grado de libertad en los requerimientos (pudiendo ser muy complejo o básico) busqué un equilibrio que permita alcanzar un buen resultado.
@@ -210,9 +213,9 @@ Para desplegar en Docker utilizaré Dockerfiles multietapa, el sdk para generar 
     - Para el id de Persona no usaré su identificador porque es un dato del dominio.
     - Para la relación de herencia utilizaré TPT de Efcore.
     - Persona será una clase abstracta y Cliente una clase concreta.
-    - Para el script BaseDatos.sql utilizaré el código creado por las migraciones de Efcore, pero manualmente se agregará la creación de cada base de datos.
+    - Para el script BaseDatos.sql utilizaré el contenido de los sql generados por el dbxontext script de Efcore, y manualmente se agregará la creación de cada base de datos con psql.
 - Consecuencia:
-    - Los esquemas parten de las migraciones, el id será compatido entre Personas y Clientes pero con tablas distintas.
+    - Los esquemas parten de los modelos en dbcontext y su mapeo, el id será compatido entre Personas y Clientes pero con tablas distintas.
     - No se podrán instanciar personas independientes, sus datos se guardarán como parte de un Cliente.
 
 
