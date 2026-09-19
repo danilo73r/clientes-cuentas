@@ -19,4 +19,7 @@
     <Project Path="src/Shared/Shared.Application/Shared.Application.csproj" />
     <Project Path="src/Shared/Shared.Domain/Shared.Domain.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Clientes.UnitTests/Clientes.UnitTests.csproj" />
+  </Folder>
 </Solution>

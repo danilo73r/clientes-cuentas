@@ -25,6 +25,7 @@ Developer: Danilo A.
 
 - generateClientes y generateCuentas generan los sql que se copian en BaseDatos.sql
 
+- ejecutarUnitTest ejecuta el unit test que se planteo para el ejercicio
 
 ## Criterios de Diseño
 
