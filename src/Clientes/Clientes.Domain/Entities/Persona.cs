@@ -28,21 +28,34 @@ public abstract class Persona
         if (id == Guid.Empty)
             throw new ValidacionException("El Id es obligatorio.");
 
-        if (!Enum.IsDefined(genero))
-            throw new ValidacionException("El género no es válido.");
-
-        if (fechaNacimientoLocal > fechaActualLocal)
-            throw new ValidacionException("La fecha de nacimiento no puede ser del futuro.");
-
         Id = id;
-        Genero = genero;
-        FechaNacimiento = fechaNacimientoLocal;
+        ActualizarDatosPersonales(
+            nombre,
+            genero,
+            fechaNacimientoLocal,
+            identificacion,
+            direccion,
+            telefono,
+            fechaActualLocal);
+    }
 
-        Nombre = NoVacío(nombre, "nombre");
+    protected void ActualizarDatosPersonales(
+        string nombre,
+        Genero genero,
+        DateOnly fechaNacimientoLocal,
+        string identificacion,
+        string direccion,
+        string telefono,
+        DateOnly fechaActualLocal)
+    {
+        Nombre = NoVacío(nombre, "nombre"); ;
+        Genero = ValidarGenero(genero);
+        FechaNacimiento = ValidarFecha(fechaNacimientoLocal, fechaActualLocal);
         Identificacion = NoVacío(identificacion, "identificación");
         Direccion = NoVacío(direccion, "dirección");
         Telefono = NoVacío(telefono, "teléfono");
     }
+
 
     public int CalcularEdad(DateOnly fechaActualLocal)
     {
@@ -57,10 +70,28 @@ public abstract class Persona
         return edad;
     }
 
+
+
+    private static Genero ValidarGenero(Genero genero)
+    {
+        if (!Enum.IsDefined(genero))
+            throw new ValidacionException("El género no es válido");
+
+        return genero;
+    }
+
+    protected static DateOnly ValidarFecha(DateOnly fechaNacimientoLocal, DateOnly fechaActualLocal)
+    {
+        if (fechaNacimientoLocal > fechaActualLocal)
+            throw new ValidacionException("La fecha de nacimiento no puede ser del futuro");
+
+        return fechaNacimientoLocal;
+    }
+
     protected static string NoVacío(string valor, string campo)
     {
         if (string.IsNullOrWhiteSpace(valor))
-            throw new ValidacionException($"El campo {campo} es obligatorio.");
+            throw new ValidacionException($"El campo {campo} es obligatorio");
 
         return valor.Trim();
     }
