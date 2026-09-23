@@ -1,4 +1,3 @@
-using Wolverine;
 using Cuentas.Infrastructure;
 using Shared.Application;
 using Shared.Api;
@@ -10,8 +9,8 @@ builder.Services
     .AddSharedApplication(builder.Configuration)
     .AddInfrastructure(builder.Configuration);
 
-builder.Host.UseWolverine(options =>
-    options.ConfigurarMensajeria(builder.Configuration));
+builder.Host
+    .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
