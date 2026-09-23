@@ -7,8 +7,8 @@ x-function: &function
     PGPASSWORD: ${POSTGRES_PASSWORD}
     PGDATABASE: postgres
   volumes:
-    - ./scripts/BaseDatos.sql:/sql/BaseDatos.sql:ro
-    - ./scripts/Reset.sql:/sql/Reset.sql:ro
+    - ./db_scripts/BaseDatos.sql:/sql/BaseDatos.sql:ro
+    - ./db_scripts/Reset.sql:/sql/Reset.sql:ro
   depends_on:
     postgres:
       condition: service_healthy

@@ -23,9 +23,9 @@ Developer: Danilo A.
 - docker compose -f compose.yaml -f compose.db.yaml run --rm db-reset
     - Elimina las bases de datos y su contenido.
 
-- generateClientes y generateCuentas generan los sql que se copian en BaseDatos.sql
+- /db_scripts/_generate.ps1 genera BaseDatos.sql
 
-- ejecutarUnitTest ejecuta el unit test que se planteo para el ejercicio
+- /test/ejecutarUnitTest.ps1 ejecuta el unit test que se planteo para el ejercicio
 
 ## Criterios de Diseño
 
@@ -214,7 +214,7 @@ Para desplegar en Docker utilizaré Dockerfiles multietapa, el sdk para generar 
     - Para el id de Persona no usaré su identificador porque es un dato del dominio.
     - Para la relación de herencia utilizaré TPT de Efcore.
     - Persona será una clase abstracta y Cliente una clase concreta.
-    - Para el script BaseDatos.sql utilizaré el contenido de los sql generados por el dbxontext script de Efcore, y manualmente se agregará la creación de cada base de datos con psql.
+    - Para el script BaseDatos.sql utilizaré el contenido de los sql generados por el dbxontext script de Efcore, y realizaré un template que usa psql y un script ps1 para agregar lo generado al template.
 - Consecuencia:
     - Los esquemas parten de los modelos en dbcontext y su mapeo, el id será compatido entre Personas y Clientes pero con tablas distintas.
     - No se podrán instanciar personas independientes, sus datos se guardarán como parte de un Cliente.
@@ -276,4 +276,3 @@ Para desplegar en Docker utilizaré Dockerfiles multietapa, el sdk para generar 
 - No utilizaré códigos para idempotencia en los movimientos, porque añade complejidad innecesaria para el ejercicio y no se conoce todo el contexto. Estos códigos permitirían por ejemplo reintentar desde el frontend que un movimiento se concrete (cuando hubo un error) sin que se genere uno nuevo.
 
 - Para el endpoint del reporte las fechas deben estar separadas con una coma, y el cliente simplemente su id. No se incluirá en la respuesta el nombre del cliente pues el consumidor o frontend obtuvo su id de otra consulta previa donde seguramente ya tiene el nombre del cliente.
-
