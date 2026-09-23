@@ -97,7 +97,7 @@ public sealed class Cliente : Persona
             return false;
 
         if (Estado != estadoConfirmado)
-            throw new ConflictoException("El estado confirmado es distinto a lo solicitado");
+            throw new InvalidOperationException("El estado confirmado es distinto a lo solicitado");
 
 
         OperacionPendienteId = null;
