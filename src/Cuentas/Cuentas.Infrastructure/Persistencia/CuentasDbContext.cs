@@ -1,6 +1,7 @@
+using Shared.Application.Persistencia;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cuentas.Infrastructure.Persistencia;
 
 public sealed class CuentasDbContext(DbContextOptions<CuentasDbContext> options)
-    : DbContext(options);
+    : DbContext(options), IUnitOfWork;

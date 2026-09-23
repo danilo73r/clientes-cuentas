@@ -1,3 +1,4 @@
+using Shared.Application.Persistencia;
 using Clientes.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -6,7 +7,7 @@ using Shared.Domain.Exceptions;
 namespace Clientes.Infrastructure.Persistencia;
 
 public sealed class ClientesDbContext(DbContextOptions<ClientesDbContext> options)
-    : DbContext(options)
+    : DbContext(options), IUnitOfWork
 {
     public DbSet<Cliente> Clientes => Set<Cliente>();
 

@@ -1,3 +1,4 @@
+using Shared.Application.Persistencia;
 using Clientes.Infrastructure.Persistencia;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,9 @@ public static class ServicesConfiguration
 
         services.AddDbContext<ClientesDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddScoped<IUnitOfWork>(provider =>
+            provider.GetRequiredService<ClientesDbContext>());
     }
 
 }
