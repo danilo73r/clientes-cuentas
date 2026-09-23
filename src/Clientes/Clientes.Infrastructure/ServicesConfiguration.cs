@@ -1,4 +1,6 @@
 using Shared.Application.Persistencia;
+using Clientes.Application.Contratos;
+using Clientes.Infrastructure.Persistencia.Repositorios;
 using Clientes.Infrastructure.Persistencia;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,9 +14,15 @@ public static class ServicesConfiguration
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        RepositoriesConfig(services);
         DatabaseConfig(services, configuration);
 
         return services;
+    }
+
+    private static void RepositoriesConfig(IServiceCollection services)
+    {
+        services.AddScoped<IClienteRepository, ClienteRepository>();
     }
 
     private static void DatabaseConfig(IServiceCollection services, IConfiguration configuration)

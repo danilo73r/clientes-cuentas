@@ -7,8 +7,8 @@ public sealed class Reloj(
     public DateTimeOffset AhoraUtc => proveedor.GetUtcNow();
     public DateTimeOffset AhoraLocal => TimeZoneInfo.ConvertTime(AhoraUtc, zonaHoraria);
 
-    public DateOnly HoyUtc => DateOnly.FromDateTime(AhoraUtc.UtcDateTime);
-    public DateOnly HoyLocal => DateOnly.FromDateTime(AhoraLocal.DateTime);
+    public DateOnly FechaActualUtc => DateOnly.FromDateTime(AhoraUtc.UtcDateTime);
+    public DateOnly FechaActualLocal => DateOnly.FromDateTime(AhoraLocal.DateTime);
 
 
     public DateTimeOffset ConvertirAInicioDiaUtc(DateOnly fechaLocal)
