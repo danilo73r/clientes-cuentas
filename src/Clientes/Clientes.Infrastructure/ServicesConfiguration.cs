@@ -1,3 +1,5 @@
+using Clientes.Infrastructure.Mensajeria;
+using Shared.Application.Mensajeria;
 using Shared.Application.Persistencia;
 using Clientes.Application.Contratos;
 using Clientes.Infrastructure.Persistencia.Repositorios;
@@ -15,6 +17,7 @@ public static class ServicesConfiguration
         IConfiguration configuration)
     {
         RepositoriesConfig(services);
+        MessagingConfig(services);
         DatabaseConfig(services, configuration);
 
         return services;
@@ -23,6 +26,11 @@ public static class ServicesConfiguration
     private static void RepositoriesConfig(IServiceCollection services)
     {
         services.AddScoped<IClienteRepository, ClienteRepository>();
+    }
+
+    private static void MessagingConfig(IServiceCollection services)
+    {
+        services.AddScoped<IOutbox, OutboxClientes>();
     }
 
     private static void DatabaseConfig(IServiceCollection services, IConfiguration configuration)

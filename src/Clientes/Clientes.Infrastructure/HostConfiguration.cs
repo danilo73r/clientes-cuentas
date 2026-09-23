@@ -1,4 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+using JasperFx;
+using Shared.Application.Mensajeria;
+using Wolverine.EntityFrameworkCore;
+using Wolverine.Postgresql;
 using Microsoft.Extensions.Configuration;
 using Wolverine;
 using Wolverine.RabbitMQ;
@@ -19,15 +22,41 @@ public static class HostConfiguration
 
     private static void MessagingConfig(IHostBuilder host, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("RabbitMQ");
-
-        if (string.IsNullOrWhiteSpace(connectionString))
-            throw new InvalidOperationException("Falta configurar ConnectionStrings:RabbitMQ");
-
         host.UseWolverine(options =>
         {
-            options.UseRabbitMq(new Uri(connectionString)).AutoProvision();
-            options.ListenToRabbitQueue("clientes");
+            ConfigurarTransporte(options, configuration);
+            ConfigurarPersistencia(options, configuration);
+            ConfigurarPublicaciones(options);
         });
+    }
+
+    private static void ConfigurarTransporte(WolverineOptions options, IConfiguration configuration)
+    {
+        var rabbitMQConnectionString = configuration.GetConnectionString("RabbitMQ");
+
+        if (string.IsNullOrWhiteSpace(rabbitMQConnectionString))
+            throw new InvalidOperationException("Falta configurar ConnectionStrings:RabbitMQ");
+
+        options.UseRabbitMq(new Uri(rabbitMQConnectionString)).AutoProvision();
+        options.ListenToRabbitQueue("clientes");
+    }
+
+    private static void ConfigurarPersistencia(WolverineOptions options, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("Database");
+        
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException("Falta configurar ConnectionStrings:Database");
+
+        options.PersistMessagesWithPostgresql(connectionString, "wolverine");
+        options.AutoBuildMessageStorageOnStartup = AutoCreate.None;
+        options.UseEntityFrameworkCoreTransactions();
+    }
+
+    private static void ConfigurarPublicaciones(WolverineOptions options)
+    {
+        options.PublishMessage<CrearProyeccionCliente>()
+            .ToRabbitQueue("cuentas")
+            .UseDurableOutbox();
     }
 }

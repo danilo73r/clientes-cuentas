@@ -1,4 +1,4 @@
-using Shared.Application.Persistencia;
+using Shared.Application.Mensajeria;
 using FluentValidation;
 using Clientes.Application.Contratos;
 using Clientes.Domain.Entities;
@@ -10,7 +10,7 @@ namespace Clientes.Application.CrearClientes;
 
 public sealed class CrearCliente(
     IClienteRepository repository,
-    IUnitOfWork unitOfWork,
+    IOutbox outbox,
     GeneradorId generadorId,
     Reloj reloj,
     IValidator<CrearClienteInputDto> validador)
@@ -21,6 +21,7 @@ public sealed class CrearCliente(
     {
         await validador.ValidateAndThrowAsync(solicitud, cancellationToken);
 
+        var operacionId = GeneradorId.CrearRandomId();
         var cliente = new Cliente(
             id: generadorId.CrearIdSecuencial(),
             nombre: solicitud.Nombre,
@@ -31,7 +32,7 @@ public sealed class CrearCliente(
             telefono: solicitud.Telefono,
             contrasena: solicitud.Contrasena,
             fechaActualLocal: reloj.FechaActualLocal,
-            operacionCreacionId: GeneradorId.CrearRandomId());
+            operacionCreacionId: operacionId);
 
         var duplicacionDeIdentificacion = await repository.ExisteIdentificacionAsync(
             cliente.Identificacion,
@@ -41,7 +42,14 @@ public sealed class CrearCliente(
             throw new ConflictoException("Identificación duplicada");
 
         repository.Agregar(cliente);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await outbox.GuardarYPublicarAsync(
+            new CrearProyeccionCliente(
+                operacionId,
+                cliente.Id,
+                cliente.Estado,
+                cliente.Version),
+            cancellationToken);
 
         return new ClienteCreadoOutputDto(
             cliente.Id,

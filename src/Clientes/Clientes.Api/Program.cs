@@ -1,3 +1,4 @@
+using JasperFx;
 using Clientes.Api.Endpoints;
 using Clientes.Application;
 using Clientes.Infrastructure;
@@ -24,4 +25,5 @@ app.UseExceptionHandler();
 var api = app.MapGroup("/api");
 api.MapClientesEndpoints();
 
-app.Run();
+// habilita db-dump para sql de wolverine
+return await app.RunJasperFxCommands(args);
