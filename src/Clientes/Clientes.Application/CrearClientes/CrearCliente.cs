@@ -1,5 +1,5 @@
-using Shared.Application.Mensajeria.Contratos;
 using Shared.Application.Mensajeria;
+using Shared.Application.Mensajeria.Contratos;
 using FluentValidation;
 using Clientes.Application.Contratos;
 using Clientes.Domain.Entities;
@@ -11,6 +11,7 @@ namespace Clientes.Application.CrearClientes;
 
 public sealed class CrearCliente(
     IClienteRepository repository,
+    ICreacionClienteSagaRepository sagaRepository,
     IOutbox outbox,
     GeneradorId generadorId,
     Reloj reloj,
@@ -43,6 +44,7 @@ public sealed class CrearCliente(
             throw new ConflictoException("Identificación duplicada");
 
         repository.Agregar(cliente);
+        sagaRepository.Agregar(cliente);
 
         await outbox.GuardarYPublicarAsync(
             new CrearProyeccionClienteCommand(

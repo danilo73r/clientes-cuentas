@@ -26,6 +26,7 @@ public static class ServicesConfiguration
     private static void RepositoriesConfig(IServiceCollection services)
     {
         services.AddScoped<IClienteRepository, ClienteRepository>();
+        services.AddScoped<ICreacionClienteSagaRepository, CreacionClienteSagaRepository>();
     }
 
     private static void MessagingConfig(IServiceCollection services)

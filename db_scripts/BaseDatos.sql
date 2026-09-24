@@ -1,4 +1,4 @@
-\connect postgres
+﻿\connect postgres
 
 
 -- Clientes
@@ -14,6 +14,16 @@ SELECT NOT EXISTS (
     \connect :clientes
 
     -- Inicia clientes
+
+CREATE TABLE "CreacionesClientes" (
+    "Id" uuid NOT NULL,
+    "ClienteId" uuid NOT NULL,
+    "EstadoEsperado" boolean NOT NULL,
+    "VersionEsperada" bigint NOT NULL,
+    "Version" integer NOT NULL,
+    CONSTRAINT "PK_CreacionesClientes" PRIMARY KEY ("Id")
+);
+
 
 CREATE TABLE "Personas" (
     "Id" uuid NOT NULL,
@@ -36,6 +46,9 @@ CREATE TABLE "Clientes" (
     CONSTRAINT "PK_Clientes" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_Clientes_Personas_Id" FOREIGN KEY ("Id") REFERENCES "Personas" ("Id") ON DELETE CASCADE
 );
+
+
+CREATE UNIQUE INDEX "IX_CreacionesClientes_ClienteId" ON "CreacionesClientes" ("ClienteId");
 
 
 CREATE UNIQUE INDEX "UX_Personas_Identificacion" ON "Personas" ("Identificacion");

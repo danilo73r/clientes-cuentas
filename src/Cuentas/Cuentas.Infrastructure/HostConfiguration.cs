@@ -27,9 +27,9 @@ public static class HostConfiguration
     {
         host.UseWolverine(options =>
         {
-            ConfigurarHandlers(options);
             ConfigurarTransporte(options, configuration);
             ConfigurarPersistencia(options, configuration);
+            ConfigurarHandlers(options);
             ConfigurarPublicaciones(options);
             ConfigurarReintentos(options);
         });

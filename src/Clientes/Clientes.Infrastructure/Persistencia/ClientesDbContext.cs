@@ -1,3 +1,4 @@
+using Clientes.Infrastructure.Mensajeria.Sagas;
 using Shared.Application.Persistencia;
 using Clientes.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ public sealed class ClientesDbContext(DbContextOptions<ClientesDbContext> option
     : DbContext(options), IUnitOfWork
 {
     public DbSet<Cliente> Clientes => Set<Cliente>();
+    public DbSet<CreacionClienteSaga> CreacionesClientes => Set<CreacionClienteSaga>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
