@@ -1,3 +1,5 @@
+using Shared.Domain.Exceptions;
+using Shared.Application.Paginacion;
 using Clientes.Application.Contratos;
 using Clientes.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,29 @@ public sealed class ClienteRepository(ClientesDbContext context)
             .SingleOrDefaultAsync(
                 cliente => cliente.Id == id,
                 cancellationToken);
+    }
+
+    public async Task<ResultadoPaginado<Cliente>> ListarAsync(
+        int pagina,
+        int tamanoPagina,
+        CancellationToken cancellationToken)
+    {
+        var consulta = context.Clientes.AsNoTracking();
+        var totalRegistros = await consulta.CountAsync(cancellationToken);
+        var totalPaginas = (int)Math.Ceiling((double)totalRegistros / tamanoPagina);
+        var ultimaPagina = Math.Max(1, totalPaginas);
+
+        if (pagina > ultimaPagina)
+            throw new ValidacionException($"La página no existe. La última es {ultimaPagina}");
+
+        var clientes = await consulta
+            .OrderBy(cliente => cliente.Id)
+            .Skip(checked((pagina - 1) * tamanoPagina))
+            .Take(tamanoPagina)
+            .ToListAsync(cancellationToken);
+
+        return new ResultadoPaginado<Cliente>(
+            clientes, totalRegistros, pagina, tamanoPagina);
     }
 
     public void Agregar(Cliente cliente)

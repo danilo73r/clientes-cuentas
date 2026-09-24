@@ -1,32 +1,26 @@
 using Clientes.Domain.Entities;
 using Clientes.Domain.Enums;
 
-namespace Clientes.Application.ObtenerClientes;
+namespace Clientes.Application.ListadoClientes;
 
-public sealed record ClienteOutputDto(
+public sealed record ListarClientesOutputDto(
     Guid Id,
     string Nombre,
     Genero Genero,
     DateOnly FechaNacimiento,
-    int Edad,
     string Identificacion,
     string Direccion,
     string Telefono,
-    bool Estado,
-    long Version,
-    Guid? OperacionPendienteId)
+    bool Estado)
 {
-    public static ClienteOutputDto Desde(Cliente cliente, DateOnly fechaActualLocal)
+    public static ListarClientesOutputDto Desde(Cliente cliente)
         => new(
             cliente.Id,
             cliente.Nombre,
             cliente.Genero,
             cliente.FechaNacimiento,
-            cliente.CalcularEdad(fechaActualLocal),
             cliente.Identificacion,
             cliente.Direccion,
             cliente.Telefono,
-            cliente.Estado,
-            cliente.Version,
-            cliente.OperacionPendienteId);
+            cliente.Estado);
 }
