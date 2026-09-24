@@ -1,5 +1,5 @@
 using JasperFx;
-using Shared.Application.Mensajeria;
+using Shared.Application.Mensajeria.Contratos;
 using Wolverine.EntityFrameworkCore;
 using Wolverine.Postgresql;
 using Microsoft.Extensions.Configuration;
@@ -55,7 +55,7 @@ public static class HostConfiguration
 
     private static void ConfigurarPublicaciones(WolverineOptions options)
     {
-        options.PublishMessage<CrearProyeccionCliente>()
+        options.PublishMessage<CrearProyeccionClienteCommand>()
             .ToRabbitQueue("cuentas")
             .UseDurableOutbox();
     }

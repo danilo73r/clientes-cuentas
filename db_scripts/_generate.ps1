@@ -30,10 +30,14 @@ try {
     dotnet run --project src/Clientes/Clientes.Api --no-build -- db-dump "$PSScriptRoot/Clientes.wolverine.sql"
     if ($LASTEXITCODE -ne 0) { throw "No se pudo generar Clientes.wolverine.sql" }
 
+    dotnet run --project src/Cuentas/Cuentas.Api --no-build -- db-dump "$PSScriptRoot/Cuentas.wolverine.sql"
+    if ($LASTEXITCODE -ne 0) { throw "No se pudo generar Cuentas.wolverine.sql" }
+
     # insertar ambos SQL en el template
     $clientesSql = [System.IO.File]::ReadAllText("$PSScriptRoot/Clientes.sql").TrimEnd()
     $clientesSql += "`n`n" + [System.IO.File]::ReadAllText("$PSScriptRoot/Clientes.wolverine.sql").TrimEnd()
     $cuentasSql = [System.IO.File]::ReadAllText("$PSScriptRoot/Cuentas.sql").TrimEnd()
+    $cuentasSql += "`n`n" + [System.IO.File]::ReadAllText("$PSScriptRoot/Cuentas.wolverine.sql").TrimEnd()
     $template = $template.Replace($bloqueClientes[0].Value, "-- Inicia clientes`n`n$clientesSql`n`n    -- Termina clientes")
     $template = $template.Replace($bloqueCuentas[0].Value, "-- Inicia cuentas`n`n$cuentasSql`n`n    -- Termina cuentas")
 
@@ -42,6 +46,11 @@ try {
     Write-Host "BaseDatos.sql generado" -ForegroundColor Green
 }
 finally {
-    Remove-Item -LiteralPath "$PSScriptRoot/Clientes.sql", "$PSScriptRoot/Cuentas.sql", "$PSScriptRoot/Clientes.wolverine.sql" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath @(
+        "$PSScriptRoot/Clientes.sql"
+        "$PSScriptRoot/Cuentas.sql"
+        "$PSScriptRoot/Clientes.wolverine.sql"
+        "$PSScriptRoot/Cuentas.wolverine.sql"
+    ) -ErrorAction SilentlyContinue
     Pop-Location
 }

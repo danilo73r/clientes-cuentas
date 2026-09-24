@@ -1,3 +1,4 @@
+using Shared.Application.Mensajeria.Contratos;
 using Shared.Application.Mensajeria;
 using FluentValidation;
 using Clientes.Application.Contratos;
@@ -44,7 +45,7 @@ public sealed class CrearCliente(
         repository.Agregar(cliente);
 
         await outbox.GuardarYPublicarAsync(
-            new CrearProyeccionCliente(
+            new CrearProyeccionClienteCommand(
                 operacionId,
                 cliente.Id,
                 cliente.Estado,

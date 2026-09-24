@@ -1,3 +1,7 @@
+using Cuentas.Application.Contratos;
+using Cuentas.Infrastructure.Persistencia.Repositorios;
+using Cuentas.Infrastructure.Mensajeria;
+using Shared.Application.Mensajeria;
 using Shared.Application.Persistencia;
 using Cuentas.Infrastructure.Persistencia;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +16,21 @@ public static class ServicesConfiguration
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        RepositoriesConfig(services);
+        MessagingConfig(services);
         DatabaseConfig(services, configuration);
 
         return services;
+    }
+
+    private static void RepositoriesConfig(IServiceCollection services)
+    {
+        services.AddScoped<IProyeccionClienteRepository, ProyeccionClienteRepository>();
+    }
+
+    private static void MessagingConfig(IServiceCollection services)
+    {
+        services.AddScoped<IOutbox, OutboxCuentas>();
     }
 
     private static void DatabaseConfig(IServiceCollection services, IConfiguration configuration)
