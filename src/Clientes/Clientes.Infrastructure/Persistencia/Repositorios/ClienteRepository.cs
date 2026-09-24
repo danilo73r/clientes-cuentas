@@ -16,6 +16,17 @@ public sealed class ClienteRepository(ClientesDbContext context)
             cancellationToken);
     }
 
+    public Task<Cliente?> ObtenerPorIdAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        return context.Clientes
+            .AsNoTracking()
+            .SingleOrDefaultAsync(
+                cliente => cliente.Id == id,
+                cancellationToken);
+    }
+
     public void Agregar(Cliente cliente)
     {
         context.Clientes.Add(cliente);

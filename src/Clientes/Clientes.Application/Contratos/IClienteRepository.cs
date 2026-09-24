@@ -8,5 +8,9 @@ public interface IClienteRepository
         string identificacion,
         CancellationToken cancellationToken);
 
+    Task<Cliente?> ObtenerPorIdAsync(
+        Guid id,
+        CancellationToken cancellationToken);
+
     void Agregar(Cliente cliente);
 }

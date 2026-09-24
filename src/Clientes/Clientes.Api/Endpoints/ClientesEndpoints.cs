@@ -1,3 +1,4 @@
+using Clientes.Application.ObtenerClientes;
 using Clientes.Application.CrearClientes;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -15,9 +16,9 @@ public static class ClientesEndpoints
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
-        clientes.MapGet("/{id:guid}", Obtener)
+        clientes.MapGet("/{id:guid}", ObtenerAsync)
             .WithName("ObtenerCliente")
-            .ProducesProblem(StatusCodes.Status501NotImplemented);
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         return endpoints;
     }
@@ -34,11 +35,12 @@ public static class ClientesEndpoints
             routeValues: new { id = cliente.Id });
     }
 
-    private static ProblemHttpResult Obtener(Guid id)
+    private static async Task<Ok<ClienteOutputDto>> ObtenerAsync(
+        Guid id,
+        ObtenerCliente casoDeUso,
+        CancellationToken cancellationToken)
     {
-        // TODO: devolver el cliente 
-        return TypedResults.Problem(
-            statusCode: StatusCodes.Status501NotImplemented,
-            title: "pendiente");
+        var cliente = await casoDeUso.EjecutarAsync(id, cancellationToken);
+        return TypedResults.Ok(cliente);
     }
 }
