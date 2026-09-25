@@ -1,3 +1,5 @@
+using Clientes.Application.CambiarContrasenas;
+using Clientes.Application.ActualizarClientes;
 using Clientes.Application.ListadoClientes;
 using Clientes.Application.ObtenerClientes;
 using FluentValidation;
@@ -12,8 +14,10 @@ public static class Configuration
         this IServiceCollection services)
     {
         CrearClienteUseCase(services);
+        ActualizarClienteUseCase(services);
         ObtenerClienteUseCase(services);
         ListarClientesUseCase(services);
+        CambiarContrasenaClienteUseCase(services);
         return services;
     }
 
@@ -21,6 +25,12 @@ public static class Configuration
     {
         services.AddTransient<CrearCliente>();
         services.AddScoped<IValidator<CrearClienteInputDto>, CrearClienteValidator>();
+    }
+
+    private static void ActualizarClienteUseCase(IServiceCollection services)
+    {
+        services.AddTransient<ActualizarCliente>();
+        services.AddScoped<IValidator<ActualizarClienteInputDto>, ActualizarClienteValidator>();
     }
 
     private static void ObtenerClienteUseCase(IServiceCollection services)
@@ -34,4 +44,10 @@ public static class Configuration
         services.AddScoped<IValidator<ListarClientesInputDto>, ListarClientesValidator>();
     }
     
+    private static void CambiarContrasenaClienteUseCase(IServiceCollection services)
+    {
+        services.AddTransient<CambiarContrasenaCliente>();
+        services.AddScoped<IValidator<CambiarContrasenaClienteInputDto>, CambiarContrasenaClienteValidator>();
+    }
+
 }

@@ -1,3 +1,5 @@
+using Clientes.Application.CambiarContrasenas;
+using Clientes.Application.ActualizarClientes;
 using Clientes.Application.ListadoClientes;
 using Shared.Application.Paginacion;
 using Clientes.Application.ObtenerClientes;
@@ -18,6 +20,13 @@ public static class ClientesEndpoints
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
+        clientes.MapPut("/{id:guid}", ActualizarAsync)
+            .WithName("ActualizarCliente")
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict);
+
         clientes.MapGet("/{id:guid}", ObtenerAsync)
             .WithName("ObtenerCliente")
             .ProducesProblem(StatusCodes.Status404NotFound);
@@ -25,6 +34,12 @@ public static class ClientesEndpoints
         clientes.MapGet("", ListarAsync)
             .WithName("ListarClientes")
             .ProducesProblem(StatusCodes.Status400BadRequest);
+
+        clientes.MapPost("/{id:guid}/contrasena", CambiarContrasenaAsync)
+            .WithName("CambiarContrasenaCliente")
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict);
 
         return endpoints;
     }
@@ -39,6 +54,16 @@ public static class ClientesEndpoints
             cliente,
             routeName: "ObtenerCliente",
             routeValues: new { id = cliente.Id });
+    }
+
+    private static async Task<NoContent> ActualizarAsync(
+        Guid id,
+        ActualizarClienteInputDto solicitud,
+        ActualizarCliente casoDeUso,
+        CancellationToken cancellationToken)
+    {
+        await casoDeUso.EjecutarAsync(id, solicitud, cancellationToken);
+        return TypedResults.NoContent();
     }
 
     private static async Task<Ok<ClienteOutputDto>> ObtenerAsync(
@@ -59,5 +84,15 @@ public static class ClientesEndpoints
         var solicitud = new ListarClientesInputDto(pagina, tamanoPagina);
         var resultado = await casoDeUso.EjecutarAsync(solicitud, cancellationToken);
         return TypedResults.Ok(resultado);
+    }
+
+    private static async Task<NoContent> CambiarContrasenaAsync(
+        Guid id,
+        CambiarContrasenaClienteInputDto solicitud,
+        CambiarContrasenaCliente casoDeUso,
+        CancellationToken cancellationToken)
+    {
+        await casoDeUso.EjecutarAsync(id, solicitud, cancellationToken);
+        return TypedResults.NoContent();
     }
 }

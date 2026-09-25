@@ -11,11 +11,17 @@ public interface IClienteRepository
 
     Task<Cliente?> ObtenerPorIdAsync(
         Guid id,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken,
+        bool asNoTracking = false);
 
     Task<ResultadoPaginado<Cliente>> ListarAsync(
         int pagina,
         int tamanoPagina,
+        CancellationToken cancellationToken);
+
+    Task<bool> ExisteIdentificacionEnOtroClienteAsync(
+        Guid id,
+        string identificacion,
         CancellationToken cancellationToken);
 
     void Agregar(Cliente cliente);

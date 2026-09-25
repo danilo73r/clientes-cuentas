@@ -10,7 +10,10 @@ public sealed class ObtenerCliente(IClienteRepository repository, Reloj reloj)
         Guid id,
         CancellationToken cancellationToken)
     {
-        var cliente = await repository.ObtenerPorIdAsync(id, cancellationToken)
+        var cliente = await repository.ObtenerPorIdAsync(
+            id,
+            cancellationToken,
+            asNoTracking: true)
             ?? throw new NoEncontradoException("El cliente no existe");
 
         return ClienteOutputDto.Desde(cliente, reloj.FechaActualLocal);

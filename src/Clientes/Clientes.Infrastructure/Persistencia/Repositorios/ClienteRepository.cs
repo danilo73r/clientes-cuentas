@@ -20,13 +20,15 @@ public sealed class ClienteRepository(ClientesDbContext context)
 
     public Task<Cliente?> ObtenerPorIdAsync(
         Guid id,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool asNoTracking = false)
     {
-        return context.Clientes
-            .AsNoTracking()
-            .SingleOrDefaultAsync(
-                cliente => cliente.Id == id,
-                cancellationToken);
+        var consulta = asNoTracking
+            ? context.Clientes.AsNoTracking()
+            : context.Clientes;
+
+        return consulta.SingleOrDefaultAsync(
+            cliente => cliente.Id == id, cancellationToken);
     }
 
     public async Task<ResultadoPaginado<Cliente>> ListarAsync(
@@ -50,6 +52,16 @@ public sealed class ClienteRepository(ClientesDbContext context)
 
         return new ResultadoPaginado<Cliente>(
             clientes, totalRegistros, pagina, tamanoPagina);
+    }
+
+    public Task<bool> ExisteIdentificacionEnOtroClienteAsync(
+        Guid id,
+        string identificacion,
+        CancellationToken cancellationToken)
+    {
+        return context.Clientes.AnyAsync(
+            cliente => cliente.Id != id && cliente.Identificacion == identificacion,
+            cancellationToken);
     }
 
     public void Agregar(Cliente cliente)
