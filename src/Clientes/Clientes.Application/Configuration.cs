@@ -1,3 +1,4 @@
+using Clientes.Application.ActualizarClientesParcialmente;
 using Clientes.Application.CambiarContrasenas;
 using Clientes.Application.ActualizarClientes;
 using Clientes.Application.ListadoClientes;
@@ -15,6 +16,7 @@ public static class Configuration
     {
         CrearClienteUseCase(services);
         ActualizarClienteUseCase(services);
+        ActualizarClienteParcialUseCase(services);
         ObtenerClienteUseCase(services);
         ListarClientesUseCase(services);
         CambiarContrasenaClienteUseCase(services);
@@ -31,6 +33,12 @@ public static class Configuration
     {
         services.AddTransient<ActualizarCliente>();
         services.AddScoped<IValidator<ActualizarClienteInputDto>, ActualizarClienteValidator>();
+    }
+
+    private static void ActualizarClienteParcialUseCase(IServiceCollection services)
+    {
+        services.AddTransient<ActualizarClienteParcial>();
+        services.AddScoped<IValidator<ActualizarClienteParcialInputDto>, ActualizarClienteParcialValidator>();
     }
 
     private static void ObtenerClienteUseCase(IServiceCollection services)

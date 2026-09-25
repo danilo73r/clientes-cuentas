@@ -1,3 +1,4 @@
+using Clientes.Application.ActualizarClientesParcialmente;
 using Clientes.Application.CambiarContrasenas;
 using Clientes.Application.ActualizarClientes;
 using Clientes.Application.ListadoClientes;
@@ -24,6 +25,12 @@ public static class ClientesEndpoints
             .WithName("ActualizarCliente")
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict);
+
+        clientes.MapPatch("/{id:guid}", ActualizarParcialAsync)
+            .WithName("ActualizarClienteParcial")
+            .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
@@ -60,6 +67,16 @@ public static class ClientesEndpoints
         Guid id,
         ActualizarClienteInputDto solicitud,
         ActualizarCliente casoDeUso,
+        CancellationToken cancellationToken)
+    {
+        await casoDeUso.EjecutarAsync(id, solicitud, cancellationToken);
+        return TypedResults.NoContent();
+    }
+
+    private static async Task<NoContent> ActualizarParcialAsync(
+        Guid id,
+        ActualizarClienteParcialInputDto solicitud,
+        ActualizarClienteParcial casoDeUso,
         CancellationToken cancellationToken)
     {
         await casoDeUso.EjecutarAsync(id, solicitud, cancellationToken);
